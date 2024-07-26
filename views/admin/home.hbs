@@ -1,0 +1,56 @@
+<div class="row">
+
+    <div class="d-flex flex-column  p-3 text-bg-dark col-2 " style="min-height: 510px;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="/admin" class="nav-link active" aria-current="page">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                   Category
+                </a>
+            </li>
+            <li>
+                <a href="/admin/subCategory" class="nav-link text-white">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    SubCategory
+                </a>
+            </li>
+            <li>
+                <a href="/admin/product" class="nav-link text-white">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    Product
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-10">
+        <table>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th> <a href="/admin/addCategory"><button class="btn btn-success">Add:</button></a></th>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+            {{#each categorydatas }}
+            <tr>
+                <td>{{this.catName}}</td>
+                <td>{{this.catDesc}}</td>
+                <td><img src="/images/admin/category/{{this.catImage}}" alt="" height="100px" width="150px"></td>
+                <td><a href="admin/edit/{{this._id}}"><button class="btn btn-primary">!</button> </a>
+                    <a href="admin/delete/{{this._id}}"><button class="btn btn-primary">x</button> </a>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+
+</div>
