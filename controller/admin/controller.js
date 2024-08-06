@@ -1,9 +1,11 @@
 let database = require("../../database/database");
 const mongodb = require("mongodb");
+
+
 // Category
 
 exports.admin = (req, res) => {
-  let sessions = req.session.logs
+  let sessions = req.session.logs;
   database.then((dbase) => {
     dbase
       .collection("adminCategory")
@@ -11,24 +13,28 @@ exports.admin = (req, res) => {
       .toArray()
       .then((categorydatas) => {
         console.log(sessions);
-        
-        res.render("admin/home", { categorydatas,sessions });
+
+        res.render("admin/home", { categorydatas, sessions });
       });
   });
 };
 
 exports.addCategory = (req, res) => {
-  res.render("admin/categoryAdd", { admin: true });
+  let sessions = req.session.logs;
+
+  res.render("admin/categoryAdd", { sessions });
 };
 
 exports.editCategory = (req, res) => {
+  let sessions = req.session.logs;
+
   let editId = req.params.id;
   database.then((dbase) => {
     dbase
       .collection("adminCategory")
       .findOne({ _id: new mongodb.ObjectId(editId) })
       .then((editData) => {
-        res.render("admin/categoryEdit", { editData, admin: true });
+        res.render("admin/categoryEdit", { editData, sessions });
       });
   });
 };
@@ -47,6 +53,8 @@ exports.deleteCategory = (req, res) => {
 
 // SubCategory
 exports.subCategory = (req, res) => {
+  let sessions = req.session.logs;
+
   database.then(async (dbase) => {
     // const category = await dbase.collection("adminCategory").find().toArray();
     const subcat = await dbase
@@ -65,19 +73,23 @@ exports.subCategory = (req, res) => {
       ])
       .toArray();
 
-    res.render("admin/subCategory", { subcat, admin: "true" });
+    res.render("admin/subCategory", { subcat, sessions });
     // console.log("subcategory", subcat);
   });
 };
 
 exports.addSubcategory = (req, res) => {
+  let sessions = req.session.logs;
+
   database.then(async (dbase) => {
     const category = await dbase.collection("adminCategory").find().toArray();
-    res.render("admin/subcategoryAdd", { category, admin: "true" });
+    res.render("admin/subcategoryAdd", { category, sessions });
   });
 };
 
 exports.subcatEdit = (req, res) => {
+  let sessions = req.session.logs;
+
   let updateId = req.params.id;
   database.then(async (dbase) => {
     const category = await dbase
@@ -109,7 +121,7 @@ exports.subcatEdit = (req, res) => {
       category,
       subcategory,
       adminCategory,
-      admin: true,
+      sessions,
     });
     // console.log("subcategory", subcategory);
     // console.log("category", category);
@@ -132,6 +144,8 @@ exports.subcatDelete = (req, res) => {
 //Product
 
 exports.product = (req, res) => {
+  let sessions = req.session.logs;
+
   database.then(async (dbase) => {
     const category = await dbase
       .collection("productDetails")
@@ -158,21 +172,25 @@ exports.product = (req, res) => {
         { $unwind: "$subCatData" },
       ])
       .toArray();
-    res.render("admin/product", { category, admin: "true" });
+    res.render("admin/product", { category, sessions });
     // console.log("subcategory", category);
   });
 };
 
 exports.addProduct = (req, res) => {
+  let sessions = req.session.logs;
+
   database.then(async (dbase) => {
     const admincat = await dbase.collection("adminCategory").find().toArray();
     const subcat = await dbase.collection("subCategory").find().toArray();
 
-    res.render("admin/productAdd", { admincat, subcat, admin: "true" });
+    res.render("admin/productAdd", { admincat, subcat, sessions });
   });
 };
 
 exports.productEdit = (req, res) => {
+  let sessions = req.session.logs;
+
   let editId = req.params.id;
   database.then(async (dbase) => {
     const product = await dbase
@@ -184,7 +202,7 @@ exports.productEdit = (req, res) => {
       product,
       category,
       subCategory,
-      admin: "true",
+      sessions,
     });
     // console.log("products", product);
     // console.log("category", category);
@@ -206,7 +224,8 @@ exports.productDelete = (req, res) => {
 };
 
 exports.users = (req, res) => {
-  res.render("admin/users", { admin: "true" });
+  let sessions = req.session.logs;
+  res.render("admin/users", { sessions, admin: "true" });
 };
 
 exports.logout = (req, res) => {
