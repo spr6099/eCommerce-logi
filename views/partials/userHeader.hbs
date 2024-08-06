@@ -1,26 +1,53 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #b892ff;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">User header</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand pl-2 " href="#" style="color: blue;font-size:30px;font-weight:bolder">Shopsy </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
         </li>
-      
+
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
       </ul>
+
+
+
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        {{!-- <a class="nav-link  m-1" href="/order">profile<sup style="color: rgb(42, 5, 223);font-size:15px">
+            {{ sessions .name}}</sup>
+        </a> --}}
+
+
+
+        {{#if sessions}}
+
+        <a class="nav-link  m-1" href="/cart">cart<sup style="color: rgb(42, 5, 223);font-size:15px">
+            {{ carts.length}}</sup>
+        </a>
+        <a class="nav-link  m-1" href="/order">order<sup style="color: rgb(42, 5, 223);font-size:15px">
+            {{ orders .length}}</sup>
+        </a>
+
+        <a class="nav-link  m-1" id="" href="/logout">Logout<sup style="color: rgb(42, 5, 223);font-size:15px">
+            {{ sessions .name}}</sup></a>
+        {{else}}
+
+
+        <a class="nav-link  m-1" href="/register">Register</a>
+        <a class="nav-link  m-1" id="login" href="/login">Login</a>
+
+        {{/if}}
+
       </form>
+
+
+
     </div>
   </div>
 </nav>

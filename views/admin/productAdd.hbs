@@ -1,0 +1,65 @@
+<div class="row">
+
+    <div class="d-flex flex-column  p-3 text-bg-dark col-2 " style="min-height: 510px;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="/admin" class="nav-link text-white ">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    Category
+                </a>
+            </li>
+            <li>
+                <a href="/admin/subCategory" class="nav-link text-white">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    SubCategory
+                </a>
+            </li>
+            <li>
+                <a href="/admin/product" class="nav-link active " aria-current="page">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    Product
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="col-10">
+        <div style="width: 400px;">
+            <h2>Add Product Details</h2>
+            <form action="" method="post" class="container" enctype="multipart/form-data">
+                category
+                <select name="category" id="" class="form-select border-2 border-dark" required>
+                    {{!-- <option>category</option> --}}
+                    {{#each admincat}}
+                    <option value="{{this._id}}">{{this.catName}}</option>
+                    {{/each}}
+                </select>
+                Sub category
+                <select name="subcategory" id="" class="form-select border-2 border-dark">
+                    {{!-- <option>subCategory</option> --}}
+                    {{#each subcat}}
+                    <option value="{{this._id}}">{{this.subCategory}}</option>
+                    {{/each}}
+                </select>
+                Product name
+                <input type="text" name="productName" class="form-control border-2 border-dark" required>
+                Product Description
+                <textarea class="form-control border-2 border-dark" name="description" required></textarea>
+                Product price
+                <input type="number" name="price" class="form-control border-2 border-dark" required>
+                Product Image
+                <input type="file" name="image" class="form-control border-2 border-dark" required>
+                <button type="submit" class="btn btn-dark m-2 p-2">Submit</button>
+            </form>
+        </div>
+      
+    </div>
+
+    <div>
+
+    </div>
+

@@ -68,7 +68,6 @@ router.get("/delete/:id", controller.deleteCategory);
 router.get("/subCategory", controller.subCategory);
 router.get("/addSubcategory", controller.addSubcategory);
 
-
 router.post("/addSubcategory", (req, res) => {
   let subCatDatas = {
     categoryName: req.body.category,
@@ -90,7 +89,7 @@ router.get("/subCategory/edit/:id", controller.subcatEdit);
 
 router.post("/subCategory/edit/:id", (req, res) => {
   let updateId = req.params.id;
-  console.log(updateId);
+  // console.log(updateId);
   let datas = {
     categoryName: req.body.category,
     subCategory: req.body.subCategory,
@@ -107,7 +106,9 @@ router.post("/subCategory/edit/:id", (req, res) => {
 //  Product
 
 router.get("/product", controller.product);
-router.get("/addProduct",controller.addProduct)
+
+router.get("/addProduct", controller.addProduct);
+
 router.post("/addProduct", (req, res) => {
   let proDatas = {
     category: req.body.category,
@@ -131,7 +132,55 @@ router.post("/addProduct", (req, res) => {
   });
 });
 
+router.get("/product/edit/:id", controller.productEdit);
+
+router.post("/product/edit/:id", (req, res) => {
+  let updateId = req.params.id;
+  let datas = {
+    category: req.body.category,
+    subCategory: req.body.subcategory,
+    prodName: req.body.productName,
+    description: req.body.description,
+    price: req.body.price,
+    image: req.files?.image.name,
+  };
+  let newData = "";
+  if (req.files.image) {
+    newData = {
+      category: req.body.category,
+      subCategory: req.body.subcategory,
+      prodName: req.body.productName,
+      description: req.body.description,
+      price: req.body.price,
+      image: req.files.image.name,
+    };
+    const fileup = req.files.image;
+    fileup
+      .mv("public/images/admin/product/" + datas.image)
+      .then((resltImg) => {});
+  } else {
+    newData = {
+      category: req.body.category,
+      subCategory: req.body.subcategory,
+      prodName: req.body.productName,
+      description: req.body.description,
+      price: req.body.price,
+    };
+  }
+
+  database.then((dbase) => {
+    dbase
+      .collection("productDetails")
+      .updateOne({ _id: new mongodb.ObjectId(updateId) }, { $set: newData });
+  });
+  // console.log(datas);
+  res.redirect("/admin/product");
+});
+
+router.get("/product/delete/:id", controller.productDelete);
+router.get("/users", controller.users);
 
 
 
+router.get("/logout", controller.logout);
 module.exports = router;

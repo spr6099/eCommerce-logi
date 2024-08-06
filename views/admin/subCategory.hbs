@@ -26,26 +26,29 @@
         </ul>
     </div>
 
-    <div class="col-10">
-     
+    <div class="col-10 ">
+
         <div>
-            <table>
+            <table class="table table-light " >
                 <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th> <a href="/admin/addSubcategory"><button class="btn btn-success">Add:</button></a></th>
-            </tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th> <a href="/admin/addSubcategory"><button class="btn btn-success">Add:</button></a></th>
+                </tr>
                 <tr>
                     <th>Category</th>
                     <th>Subcategory</th>
+                    <th></th>
+
                 </tr>
                 {{#each subcat}}
                 <tr>
                     <td>{{this.subcatData.catName}}</td>
-                     <td>{{this.subCategory}}</td>
-                    <td><a href="/admin/subCategory/edit/{{this._id}}"><button>Edit</button></a></td>
-                    <td><a href="/admin/subCategory/delete/{{this._id}}"><button>delete</button></a></td>
+                    <td>{{this.subCategory}}</td>
+                    <td><a href="/admin/subCategory/edit/{{this._id}}"><button class="btn btn-light">!</button></a>
+                        <a href="/admin/subCategory/delete/{{this._id}}"><button class="btn btn-primary">X</button></a>
+                    </td>
                 </tr>
                 {{/each}}
             </table>
@@ -53,5 +56,3 @@
     </div>
 
 </div>
-
-

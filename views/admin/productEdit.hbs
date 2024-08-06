@@ -1,0 +1,90 @@
+<div class="row">
+
+    <div class="d-flex flex-column  p-3 text-bg-dark col-2 " style="min-height: 510px;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="/admin" class="nav-link text-white ">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    Category
+                </a>
+            </li>
+            <li>
+                <a href="/admin/subCategory" class="nav-link text-white">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    SubCategory
+                </a>
+            </li>
+            <li>
+                <a href="/admin/product" class="nav-link active " aria-current="page">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    Product
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-10">
+
+        <div style="width: 400px;">
+            <h2>Edit Product Details</h2>
+            <form action="" method="post" class="container" enctype="multipart/form-data">
+                category
+                <input value="{{product.category}}" id="hide">
+                <select name="category" id="cat" class="form-select border-2 border-dark" required>
+                    {{#each category}}
+                    <option value="{{this._id}}">{{this.catName}}</option>
+                    {{/each}}
+                </select>
+                Sub category
+                <input value="{{product.subCategory}}" id="hide2">
+
+                <select name="subcategory" id="subcat" class="form-select border-2 border-dark">
+                    {{!-- <option>subCategory</option> --}}
+                    {{#each subCategory}}
+                    <option value="{{this._id}}">{{this.subCategory}}</option>
+                    {{/each}}
+                </select>
+                Product name
+                <input type="text" name="productName" class="form-control border-2 border-dark"
+                    value="{{product.prodName}}">
+                Product Description
+                <textarea class="form-control border-2 border-dark"
+                    name="description">{{product.description}}</textarea>
+                Product price
+                <input type="number" name="price" class="form-control border-2 border-dark" value="{{product.price}}">
+                Product Image </br>
+                <img src="/images/admin/product/{{product.image}}" alt="" height="100px"> </br>
+                <input type="file" name="image" class="form-control border-2 border-dark">
+                <button type="submit" class="btn btn-dark m-2 p-2">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        let hides = document.getElementById('hide').value;
+        let catselect = document.getElementById('cat');
+
+        for (let i = 0; i < catselect.options.length; i++) {
+            let opt = catselect.options[i];
+            if (opt.value == hides) {
+                opt.selected = true;
+                break;
+            }
+        }
+
+        let hides2 = document.getElementById('hide2').value;
+        let subcatselect = document.getElementById('subcat');
+
+        for (let i = 0; i < subcatselect.options.length; i++) {
+            let opt = subcatselect.options[i];
+            if (opt.value == hides2) {
+                opt.selected = true;
+                break;
+            }
+        }
+
+    </script>

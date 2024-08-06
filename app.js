@@ -9,6 +9,8 @@ var fileupload = require("express-fileupload");
 
 var indexRouter = require("./routes/index");
 // var usersRouter = require('./routes/users');
+var session = require("express-session");
+
 
 var app = express();
 
@@ -26,6 +28,14 @@ app.engine(
   })
 );
 
+app.use(
+  session({
+    secret: "keyboard",
+    resave: false,
+    saveUninitialized: true,
+    // cookie: { secure: true },
+  })
+);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -27,40 +27,43 @@
     </div>
 
     <div class="col-10">
+        <div class="m-2">
+            <a href="/admin/addProduct"><button class="btn btn-success">Add:</button></a> </div>
 
-        <table>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th> <a href="/admin/addProduct"><button class="btn btn-success">Add:</button></a></th>
-            </tr>
-            <tr>
-                <th>Category</th>
-                <th>Sub Category</th>
-                <th>Product</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>image</th>
-            </tr>
-            {{#each category}}
-            <tr>
-                <td>{{this.categoryData.catName}}</td>
-                <td>{{this.subCatData.subCategory}}</td>
-                <td>{{this.prodName}}</td>
-                <td>{{this.description}}</td>
-                <td>{{this.price}}</td>
-                <td><img src="/images/admin/product/{{this.image}}" alt="" height="100px" width="100px"></td>
-            </tr>
-            {{/each}}
+            <table class="table table-dark">
 
-        </table>
+
+
+                <tr>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>Product</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>image</th>
+                    <th></th>
+
+                </tr>
+                {{#each category}}
+                <tr>
+                    <td>{{this.categoryData.catName}}</td>
+                    <td>{{this.subCatData.subCategory}}</td>
+                    <td>{{this.prodName}}</td>
+                    <td>{{this.description}}</td>
+                    <td>{{this.price}}</td>
+                    <td><img src="/images/admin/product/{{this.image}}" alt="" height="100px" width="100px"></td>
+                    <td><a href="/admin/product/edit/{{this._id}}"><button>Edit</button></a>
+                        <a href="/admin/product/delete/{{this._id}}"><button>Delete</button></a>
+                    </td>
+
+                </tr>
+                {{/each}}
+
+            </table>
+        </div>
+
+        <div>
+
+        </div>
+
     </div>
-
-    <div>
-
-    </div>
-
-</div>

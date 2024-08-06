@@ -1,20 +1,24 @@
 let database = require("../../database/database");
 const mongodb = require("mongodb");
 // Category
+
 exports.admin = (req, res) => {
+  let sessions = req.session.logs
   database.then((dbase) => {
     dbase
       .collection("adminCategory")
       .find()
       .toArray()
       .then((categorydatas) => {
-        res.render("admin/home", { categorydatas, admin: true });
+        console.log(sessions);
+        
+        res.render("admin/home", { categorydatas,sessions });
       });
   });
 };
 
 exports.addCategory = (req, res) => {
-  res.render("admin/addCategory", { admin: true });
+  res.render("admin/categoryAdd", { admin: true });
 };
 
 exports.editCategory = (req, res) => {
@@ -24,7 +28,7 @@ exports.editCategory = (req, res) => {
       .collection("adminCategory")
       .findOne({ _id: new mongodb.ObjectId(editId) })
       .then((editData) => {
-        res.render("admin/editCategory", { editData, admin: true });
+        res.render("admin/categoryEdit", { editData, admin: true });
       });
   });
 };
@@ -69,7 +73,7 @@ exports.subCategory = (req, res) => {
 exports.addSubcategory = (req, res) => {
   database.then(async (dbase) => {
     const category = await dbase.collection("adminCategory").find().toArray();
-    res.render("admin/addSubcategory", { category, admin: "true" });
+    res.render("admin/subcategoryAdd", { category, admin: "true" });
   });
 };
 
@@ -101,11 +105,11 @@ exports.subcatEdit = (req, res) => {
       ])
       .toArray();
 
-    res.render("admin/editSubcategory", {
+    res.render("admin/subcategoryEdit", {
       category,
       subcategory,
       adminCategory,
-      admin: "true",
+      admin: true,
     });
     // console.log("subcategory", subcategory);
     // console.log("category", category);
@@ -155,7 +159,7 @@ exports.product = (req, res) => {
       ])
       .toArray();
     res.render("admin/product", { category, admin: "true" });
-    // console.log("subcategory", subcat);
+    // console.log("subcategory", category);
   });
 };
 
@@ -164,6 +168,48 @@ exports.addProduct = (req, res) => {
     const admincat = await dbase.collection("adminCategory").find().toArray();
     const subcat = await dbase.collection("subCategory").find().toArray();
 
-    res.render("admin/addProduct", { admincat, subcat, admin: "true" });
+    res.render("admin/productAdd", { admincat, subcat, admin: "true" });
   });
+};
+
+exports.productEdit = (req, res) => {
+  let editId = req.params.id;
+  database.then(async (dbase) => {
+    const product = await dbase
+      .collection("productDetails")
+      .findOne({ _id: new mongodb.ObjectId(editId) });
+    const category = await dbase.collection("adminCategory").find().toArray();
+    const subCategory = await dbase.collection("subCategory").find().toArray();
+    res.render("admin/productEdit", {
+      product,
+      category,
+      subCategory,
+      admin: "true",
+    });
+    // console.log("products", product);
+    // console.log("category", category);
+    // console.log("subcategory", subCategory);
+  });
+};
+
+exports.productDelete = (req, res) => {
+  let delId = req.params.id;
+  database.then((dbase) => {
+    dbase
+      .collection("productDetails")
+      .deleteOne({ _id: new mongodb.ObjectId(delId) })
+      .then((result) => {
+        res.redirect("/admin/product");
+      });
+  });
+  // console.log(delId);
+};
+
+exports.users = (req, res) => {
+  res.render("admin/users", { admin: "true" });
+};
+
+exports.logout = (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
 };

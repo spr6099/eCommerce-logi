@@ -23,23 +23,33 @@
                     Product
                 </a>
             </li>
+              <li>
+                <a href="/admin/users" class="nav-link text-white">
+                    {{!-- <svg class="bi pe-none me-2" width="16" height="16">
+                    </svg> --}}
+                    Users
+                </a>
+            </li>
         </ul>
     </div>
 
     <div class="col-10">
-        <table>
+        <table class="table table-dark table-striped">
+           <thead class="thead-light">
             <tr>
                 <th></th>
                 <th></th>
                 <th></th>
                 <th> <a href="/admin/addCategory"><button class="btn btn-success">Add:</button></a></th>
             </tr>
-            <tr>
+             
+            <tr >
                 <th>Category</th>
                 <th>Description</th>
                 <th>Image</th>
                 <th>Action</th>
             </tr>
+            </thead>
             {{#each categorydatas }}
             <tr>
                 <td>{{this.catName}}</td>

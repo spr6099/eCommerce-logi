@@ -1,1 +1,47 @@
-<h2>uihkhkj</h2>
+<div class="mt-2">
+    <img src="images/user/04bb152bb2d3f429.webp" alt="" width="100%">
+</div>
+<div>
+    <h2 class="text-center m-5">All Products</h2>
+
+    <div class="row " style="margin-left: 50px;">
+        {{#each product }}
+
+        <div class="card col-3 m-1 " style="width: 17rem;">
+            <a href="/singleProduct/{{this._id}}" class="" style="text-decoration: none;color:black">
+                <img class="card-img-top" src="images/admin/product/{{this.image}}" alt="Card image cap" height="180px">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{this.prodName}}</h5>
+                    <h6 class="card-title">Rs.{{this.price}}</h6>
+            </a>
+
+
+        </div>
+
+    </div>
+
+    {{/each}}
+
+
+</div>
+</div>
+{{!-- <h1>{{h}}</h1> --}}
+<div>
+    <h2 class="text-center m-5">All Categories</h2>
+    <div class="row " style="margin-left: 50px;">
+        {{#each category}}
+
+        <div class="card col-3 m-1" style="width: 18rem;">
+            <a href="/categories/{{this._id}}" style="text-decoration: none;color:black">
+                <img class="card-img-top" src="images/admin/category/{{this.catImage}}" alt="Card image cap"
+                    height="150px">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.catName}}</h5>
+            </a>
+        </div>
+
+    </div>
+    {{/each}}
+</div>
+</div>
