@@ -1,32 +1,35 @@
 let database = require("../../database/database");
 const mongodb = require("mongodb");
 
-
 // Category
+exports.logout = (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
+};
 
 exports.admin = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
   database.then((dbase) => {
     dbase
       .collection("adminCategory")
       .find()
       .toArray()
       .then((categorydatas) => {
-        console.log(sessions);
+        // console.log(sessions);
 
-        res.render("admin/home", { categorydatas, sessions });
+        res.render("admin/home", { categorydatas, admin: true });
       });
   });
 };
 
 exports.addCategory = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
 
-  res.render("admin/categoryAdd", { sessions });
+  res.render("admin/categoryAdd", { admin: true });
 };
 
 exports.editCategory = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
 
   let editId = req.params.id;
   database.then((dbase) => {
@@ -34,7 +37,7 @@ exports.editCategory = (req, res) => {
       .collection("adminCategory")
       .findOne({ _id: new mongodb.ObjectId(editId) })
       .then((editData) => {
-        res.render("admin/categoryEdit", { editData, sessions });
+        res.render("admin/categoryEdit", { editData, admin: true });
       });
   });
 };
@@ -53,7 +56,7 @@ exports.deleteCategory = (req, res) => {
 
 // SubCategory
 exports.subCategory = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
 
   database.then(async (dbase) => {
     // const category = await dbase.collection("adminCategory").find().toArray();
@@ -73,22 +76,22 @@ exports.subCategory = (req, res) => {
       ])
       .toArray();
 
-    res.render("admin/subCategory", { subcat, sessions });
+    res.render("admin/subCategory", { subcat, admin: true });
     // console.log("subcategory", subcat);
   });
 };
 
 exports.addSubcategory = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
 
   database.then(async (dbase) => {
     const category = await dbase.collection("adminCategory").find().toArray();
-    res.render("admin/subcategoryAdd", { category, sessions });
+    res.render("admin/subcategoryAdd", { category, admin: true });
   });
 };
 
 exports.subcatEdit = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
 
   let updateId = req.params.id;
   database.then(async (dbase) => {
@@ -121,7 +124,7 @@ exports.subcatEdit = (req, res) => {
       category,
       subcategory,
       adminCategory,
-      sessions,
+      admin: true,
     });
     // console.log("subcategory", subcategory);
     // console.log("category", category);
@@ -144,7 +147,7 @@ exports.subcatDelete = (req, res) => {
 //Product
 
 exports.product = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
 
   database.then(async (dbase) => {
     const category = await dbase
@@ -172,24 +175,24 @@ exports.product = (req, res) => {
         { $unwind: "$subCatData" },
       ])
       .toArray();
-    res.render("admin/product", { category, sessions });
+    res.render("admin/product", { category, admin: true });
     // console.log("subcategory", category);
   });
 };
 
 exports.addProduct = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
 
   database.then(async (dbase) => {
     const admincat = await dbase.collection("adminCategory").find().toArray();
     const subcat = await dbase.collection("subCategory").find().toArray();
 
-    res.render("admin/productAdd", { admincat, subcat, sessions });
+    res.render("admin/productAdd", { admincat, subcat, admin: true });
   });
 };
 
 exports.productEdit = (req, res) => {
-  let sessions = req.session.logs;
+  // let sessions = req.session.logs;
 
   let editId = req.params.id;
   database.then(async (dbase) => {
@@ -202,7 +205,7 @@ exports.productEdit = (req, res) => {
       product,
       category,
       subCategory,
-      sessions,
+      admin: true,
     });
     // console.log("products", product);
     // console.log("category", category);
@@ -224,11 +227,99 @@ exports.productDelete = (req, res) => {
 };
 
 exports.users = (req, res) => {
-  let sessions = req.session.logs;
-  res.render("admin/users", { sessions, admin: "true" });
+  // let sessions = req.session.logs;
+  database.then((dbase) => {
+    dbase
+      .collection("userRegister")
+      .find({ userStatus: 1 })
+      .toArray()
+      .then((users) => {
+        // console.log(users);
+        res.render("admin/users", { users, admin: "true" });
+      });
+  });
 };
 
-exports.logout = (req, res) => {
-  req.session.destroy();
-  res.redirect("/login");
+exports.userDelete = (req, res) => {
+  let delId = req.params.id;
+  database.then(async (dbase) => {
+    const userDelete = await dbase
+      .collection("userRegister")
+      .deleteOne({ _id: new mongodb.ObjectId(delId) });
+    const cartDelete = await dbase
+      .collection("cart")
+      .deleteMany({ userid: delId });
+
+    res.redirect("admin/users");
+  });
+};
+
+exports.userView = (req, res) => {
+  let userId = req.params.id;
+  req.session.admin_user_id = userId;
+  let sessionId = req.session.admin_user_id;
+  // console.log("sessionId", sessionId);
+
+  database.then(async (dbase) => {
+    const products = await dbase
+      .collection("cart")
+      .aggregate([
+        { $match: { $and: [{ userid: userId }, { status: 1 }] } },
+        // { $match: { $and: [{ userid: sessionid }, { status: 1 }] } },
+
+        { $addFields: { userid: { $toObjectId: "$userid" } } },
+        {
+          $lookup: {
+            from: "userRegister",
+            localField: "userid",
+            foreignField: "_id",
+            as: "userLookup",
+          },
+        },
+        { $unwind: "$userLookup" },
+        { $addFields: { product: { $toObjectId: "$product" } } },
+        {
+          $lookup: {
+            from: "productDetails",
+            localField: "product",
+            foreignField: "_id",
+            as: "productLookup",
+          },
+        },
+        { $unwind: "$productLookup" },
+        { $addFields: { product: { $toObjectId: "$product" } } },
+        {
+          $lookup: {
+            from: "productDetails",
+            localField: "product",
+            foreignField: "_id",
+            as: "productLookup",
+          },
+        },
+        { $unwind: "$productLookup" },
+      ])
+      .toArray();
+    // console.log("userId", userId);
+    // console.log("products", products);
+    res.render("admin/userView", { products, admin: "true" });
+  });
+};
+
+exports.deleteOrder = (req, res) => {
+  let delId = req.params.id;
+  let sessionId = req.session.admin_user_id;
+  console.log("sessionId", sessionId);
+
+  // console.log(delId);
+
+  database.then((dbase) => {
+    dbase
+      .collection("cart")
+      .deleteOne({ _id: new mongodb.ObjectId(delId) })
+      .then((reslt) => {});
+  });
+  // res.redirect("/admin/userView/66b2faef5522320db89de17b");
+  res.redirect(`/admin/userView/${sessionId}`);
+
+  // res.redirect("admin/users");
 };

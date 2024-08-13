@@ -25,17 +25,17 @@
 
 
 
-        {{#if sessions}}
+        {{#if session.logs}}
 
         <a class="nav-link  m-1" href="/cart">cart<sup style="color: rgb(42, 5, 223);font-size:15px">
-            {{ carts.length}}</sup>
+            {{session.carts.length}}</sup>
         </a>
-        <a class="nav-link  m-1" href="/order">order<sup style="color: rgb(42, 5, 223);font-size:15px">
-            {{ orders .length}}</sup>
+        <a class="nav-link  m-1" href="/orderView">order<sup style="color: rgb(42, 5, 223);font-size:15px">
+            {{ session.orders.length}}</sup>
         </a>
 
         <a class="nav-link  m-1" id="" href="/logout">Logout<sup style="color: rgb(42, 5, 223);font-size:15px">
-            {{ sessions .name}}</sup></a>
+            {{ session.logs.name}}</sup></a>
         {{else}}
 
 

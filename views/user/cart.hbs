@@ -21,7 +21,7 @@
                   <div>
                     <p class="mb-1">Shopping cart</p>
                     <p class="mb-0">You have
-                      {{carts.length}}
+                      {{session.carts.length}}
                       items in your cart</p>
                   </div>
                   <div>
@@ -71,11 +71,13 @@
                   {{!-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
                   <div class="card-body">
                     <h5 class="card-title">Payments</h5>
-                    <p class="card-text">Total items ={{carts.length}}</p>
+                    <p class="card-text">Total items ={{session.carts.length}}</p>
                     <p class="card-text">Total price = {{total}}</p>
-                    
+
                     <a href="/order" class="btn btn-primary">Order & Buy</a>
-                    
+                    {{!-- <a href="/order" class="btn btn-primary">Order & Buy</a> --}}
+
+
                   </div>
                 </div>
 
@@ -108,5 +110,3 @@
 
   document.getElementById("demo").innerHTML = total;
 </script>
-
-

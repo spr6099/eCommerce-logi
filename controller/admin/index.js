@@ -7,6 +7,8 @@ var mongodb = require("mongodb");
 // category
 
 router.get("/", controller.admin);
+router.get("/logout", controller.logout);
+
 router.get("/addCategory", controller.addCategory);
 
 router.post("/addCategory", (req, res) => {
@@ -180,7 +182,8 @@ router.post("/product/edit/:id", (req, res) => {
 router.get("/product/delete/:id", controller.productDelete);
 router.get("/users", controller.users);
 
+router.get("/userDelete/:id",controller.userDelete)
+router.get("/userView/:id",controller.userView)
+router.get("/deleteOrder/:id", controller.deleteOrder);
 
-
-router.get("/logout", controller.logout);
 module.exports = router;

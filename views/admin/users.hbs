@@ -34,4 +34,37 @@
     </div>
 
     <div class="col-10">
+        <div class="m-2">
+        </div>
+
+        <table class="table table-dark">
+
+
+
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                {{!-- <th>Product</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>image</th> --}}
+                <th></th>
+
+            </tr>
+            {{#each users}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.email}}</td>
+                <td>
+                    <a href="/admin/userDelete/{{this._id}}" style="text-decoration:none">
+                        <button class="btn btn-success">Delete</button> </a>
+                    <a href="/admin/userView/{{this._id}}"><button class="btn btn-success">view carts</button></a>
+
+                </td>
+
+
+            </tr>
+            {{/each}}
+
+        </table>
     </div>

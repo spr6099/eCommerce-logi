@@ -23,7 +23,7 @@ router.post("/register", (req, res) => {
         .collection("userRegister")
         .insertOne(Datas)
         .then((reslt) => {});
-      res.redirect("/user");
+      res.redirect("/login");
     });
   });
 });
@@ -126,10 +126,11 @@ router.get("/singleProduct/:id", controller.singleProduct);
 router.get("/categories/:id", controller.categories);
 
 //cart
-router.get("/wishlist/:id", controller.wishlist);
+router.get("/addToCart/:id", controller.addToCart);
 router.get("/cart", controller.cart);
 router.get("/deleteCart/:id", controller.deleteCart);
 
 router.get("/order", controller.order);
+router.get("/orderView", controller.orderView);
 
 module.exports = router;
